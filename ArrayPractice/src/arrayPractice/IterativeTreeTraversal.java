@@ -15,13 +15,14 @@ public class IterativeTreeTraversal {
 
 	class Node {
 		int data;
-		Node left, right;
+		Node left, right,random;
 
 		public Node(int data) {
 			super();
 			this.data = data;
 			this.left = null;
 			this.right = null;
+			this.random = null;
 		}
 		Node(){
 
@@ -92,7 +93,41 @@ public class IterativeTreeTraversal {
 		//tree.printNodesLevelWise(root);
 		//tree.boundaryTraversal(root);
 		//tree.findAllNodesAtDistanceKfromLeafNodes(root);
-		tree.spiralTraversalAntiClockWise(root);
+		//tree.spiralTraversalAntiClockWise(root);
+		System.out.println("before cloning inorder traversal is");
+		tree.inOrderTraversal(root);
+		tree.cloneTree(root);
+	}
+
+	private void cloneTree(Node root) {
+		if(root==null){
+			return;
+		}
+		HashMap<Node,Node> map=new HashMap<>();
+		Node cloneRoot=cloneCompleteTree(root,map);
+		copyEdgesRandom(cloneRoot,root,map);
+		System.out.println("after cloning of tree of inorder traversal");
+		inOrderTraversal(cloneRoot);
+	}
+
+	private void copyEdgesRandom(Node cloneRoot, Node root, HashMap<Node, Node> map) {
+		if(cloneRoot==null){
+			return;
+		}
+		cloneRoot.random=map.get(root.random);
+		copyEdgesRandom(cloneRoot.left,root.left,map);
+		copyEdgesRandom(cloneRoot.right,root.right,map);
+	}
+
+	private Node cloneCompleteTree(Node root, HashMap<Node, Node> map) {
+		if(root==null){
+			return null ;
+		}
+		Node cloneRoot=new Node(root.data);
+		map.put(root,cloneRoot);
+		cloneRoot.left=cloneCompleteTree(root.left,map);
+		cloneRoot.right=cloneCompleteTree(root.right,map);
+		return cloneRoot;
 	}
 
 	private void spiralTraversalAntiClockWise(Node root) {
@@ -396,7 +431,7 @@ public class IterativeTreeTraversal {
 	}
 
 	private void kThSmallest(int i) {
-		inOrderTraversal();
+		//inOrderTraversal();
 		System.out.println("kth smallest element-----"+sortedData.get(i-1));
 		
 	}
@@ -665,7 +700,7 @@ public class IterativeTreeTraversal {
 	}
 
 	@SuppressWarnings("unused")
-	private void inOrderTraversal() {
+	private void inOrderTraversal(Node root) {
 		Stack<Node> s = new Stack<>();
 		Node curr = root;
 		while (!s.empty() || curr != null) {
