@@ -1,2 +1,17 @@
-package com.DecoratorDesignPattern;public class ShapeDecorator {
+package com.DecoratorDesignPattern;
+
+public abstract class ShapeDecorator implements Shape {
+
+
+    protected Shape decoratedShape;
+
+
+    public ShapeDecorator(Shape decoratedShape)
+    {
+
+        this.decoratedShape = decoratedShape;
+    }
+
+
+    public void draw() { decoratedShape.draw(); }
 }
