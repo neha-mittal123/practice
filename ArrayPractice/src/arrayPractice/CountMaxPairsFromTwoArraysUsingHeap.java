@@ -2,7 +2,8 @@ package arrayPractice;
 
 //Count of pairs from arrays A and B such that element in A is greater than element in B at that index
 //
-//Given two arrays A[] and B[] of size N, the task is to count the maximum number of pairs, where each pair contains one from each array, such that A[i] > B[i]. Also the array A can be rearranged any number of times.
+//Given two arrays A[] and B[] of size N, the task is to count the maximum number of pairs, where each pair contains one from each array,
+// such that A[i] > B[i]. Also the array A can be rearranged any number of times.
 //
 //        Examples:
 //
