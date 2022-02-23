@@ -12,10 +12,12 @@ public class IterativeTreeTraversal {
 	static int ans = 0;
 	int ansRootToLeafSum = 0;
 	int result = Integer.MIN_VALUE;
+	int minDiff = Integer.MAX_VALUE;
+	int minDiffKey = -1;
 
 	class Node {
 		int data;
-		Node left, right,random;
+		Node left, right,random,rightSibling;
 
 		public Node(int data) {
 			super();
@@ -23,11 +25,16 @@ public class IterativeTreeTraversal {
 			this.left = null;
 			this.right = null;
 			this.random = null;
+			this.rightSibling = null;
 		}
 		Node(){
 
 		}
 
+	}
+
+	class Result {
+		int res = 0;
 	}
 
 	@SuppressWarnings("static-access")
@@ -94,9 +101,12 @@ public class IterativeTreeTraversal {
 		//tree.boundaryTraversal(root);
 		//tree.findAllNodesAtDistanceKfromLeafNodes(root);
 		//tree.spiralTraversalAntiClockWise(root);
-		System.out.println("before cloning inorder traversal is");
-		tree.inOrderTraversal(root);
-		tree.cloneTree(root);
+		//System.out.println("before cloning inorder traversal is");
+		//tree.inOrderTraversal(root);
+		//tree.cloneTree(root);
+		// tree.findClosestElementSearchInBST(root,23);
+		//tree.populateRightSibling(root);
+		System.out.println(tree.longestConsicutiveSequence(root));
 	}
 
 	private void cloneTree(Node root) {
@@ -108,6 +118,80 @@ public class IterativeTreeTraversal {
 		copyEdgesRandom(cloneRoot,root,map);
 		System.out.println("after cloning of tree of inorder traversal");
 		inOrderTraversal(cloneRoot);
+	}
+
+	private void findClosestElementSearchInBST(Node root, int k) {
+		findClosestElement(root,k);
+		System.out.print(minDiffKey);
+	}
+
+	private void findClosestElement(Node root, int k) {
+		if(root==null){
+			return;
+		}
+		if(root.data==k){
+			minDiffKey=root.data;
+			return;
+		}
+		if(minDiff>Math.abs(root.data-k)){
+			minDiff=Math.abs(root.data-k);
+			minDiffKey=root.data;
+		}
+		if(k<root.data){
+			findClosestElement(root.left,k);
+		}else{
+			findClosestElement(root.right,k);
+		}
+	}
+
+	private int longestConsicutiveSequence(Node root) {
+		if(root==null){
+			return 0;
+		}
+		Result res=new Result();
+		longestConsicutiveSequenceUtil(root,0,root.data,res);
+		return res.res;
+	}
+
+	private void longestConsicutiveSequenceUtil(Node root, int curr, int expected, Result res) {
+		if(root==null){
+			return;
+		}
+		if(root.data==expected){
+			curr++;
+		}else{
+			curr=1;
+		}
+		res.res=Math.max(res.res,curr);
+		longestConsicutiveSequenceUtil(root.left,curr,root.data+1,res);
+		longestConsicutiveSequenceUtil(root.right,curr,root.data+1,res);
+	}
+
+	private void populateRightSibling(Node root) {
+		LinkedList<Node> queue=new LinkedList<>();
+		Node oldValue=root;
+		queue.addLast(root);
+		while(!queue.isEmpty()){
+			int size=queue.size();
+			while(size>0){
+				Node element=queue.removeFirst();
+				if(element.left!=null)
+					queue.addLast(element.left);
+				if(element.right!=null)
+					queue.addLast(element.right);
+				if(element==oldValue){
+					element.rightSibling=null;
+				}else{
+					if(size>1){
+						element.rightSibling=queue.peek();
+					}else{
+						element.rightSibling=null;
+					}
+				}
+				size--;
+			}
+		}
+		//levelOrderTraversal(oldValue);
 	}
 
 	private void copyEdgesRandom(Node cloneRoot, Node root, HashMap<Node, Node> map) {
