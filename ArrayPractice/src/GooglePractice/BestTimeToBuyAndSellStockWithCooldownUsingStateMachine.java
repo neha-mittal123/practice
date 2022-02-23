@@ -11,7 +11,7 @@ package GooglePractice;
 //        Output: 3
 //        Explanation: transactions = [buy, sell, cooldown, buy, sell]
 
-public class BestTimeToBuyAndSellStockWithCooldown {
+public class BestTimeToBuyAndSellStockWithCooldownUsingStateMachine {
     public static void main(String[] args){
         int[] prices={1,2,3,0,2};
         System.out.println(findMaxProfit(prices));
