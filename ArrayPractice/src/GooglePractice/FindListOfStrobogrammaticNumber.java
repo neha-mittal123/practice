@@ -6,7 +6,7 @@ import java.util.Queue;
 public class FindListOfStrobogrammaticNumber {
 
     public static void main(String args[]){
-        int n = 2;
+        int n = 4;
         Queue<String> result;
         result = findStrobogrammaticNumber(n);
         for(String s : result){
