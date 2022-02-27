@@ -1,13 +1,22 @@
 package GooglePractice;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class GreatestPalindromeNumber {
+    static class Node{
+        int key,value;
+        Node(int key,int value){
+            this.key=key;
+            this.value=value;
+        }
+
+        @Override
+        public String toString() {
+            return  key+"" ;
+        }
+    }
     public static void main(String[] args){
-        String s="39878";
+        String s="333399987888";
         System.out.println(findGreatestPalindromeNumber(s));
     }
 
@@ -20,22 +29,45 @@ public class GreatestPalindromeNumber {
                 map.put(s.charAt(i)-'0',1);
             }
         }
-        PriorityQueue<Integer> maxHeap=new PriorityQueue<>(Collections.reverseOrder());
-        PriorityQueue<Integer> minHeap=new PriorityQueue<>();
-        for(Map.Entry entry:map.entrySet()){
-            if((int)entry.getValue()==1){
-                maxHeap.add((int)entry.getKey());
+        PriorityQueue<Node> maxHeap=new PriorityQueue<>(new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                return o2.key-o1.key;
             }
-            if((int)entry.getValue()==2){
+        });
+        PriorityQueue<Node> minHeap=new PriorityQueue<>(new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                return o1.key- o2.key;
+            }
+        });
+        for(Map.Entry entry:map.entrySet()){
+            if((int)entry.getValue()%2==1){
+                maxHeap.add(new Node((int)entry.getKey(),(int)entry.getValue()));
+            }
+            if((int)entry.getValue()%2==0){
                 if((int)entry.getKey()!=0){
-                    minHeap.add((int)entry.getKey());
+                    minHeap.add(new Node((int)entry.getKey(),(int)entry.getValue()));
                 }
             }
         }
-        String res=String.valueOf(maxHeap.poll())+"";
+        String res=String.valueOf(maxHeap.peek().key)+"";
+        minHeap.add(new Node(maxHeap.peek().key,maxHeap.poll().value-1));
         while(minHeap.size()!=0){
-            res=String.valueOf(minHeap.peek())+res+String.valueOf(minHeap.peek());
-            minHeap.poll();
+            Node temp = null;
+            if(minHeap.peek().value>0){
+                 temp=minHeap.poll();
+            }else
+            {
+                minHeap.poll();
+                continue;
+            }
+            res=String.valueOf(temp.key)+res+temp.key;
+            if(temp.value==0){
+                minHeap.poll();
+            }else{
+                minHeap.add(new Node(temp.key,temp.value-2));
+            }
         }
 
         return res;
