@@ -62,7 +62,7 @@ public class GreatestPalindromeNumber {
                 minHeap.poll();
                 continue;
             }
-            res=String.valueOf(temp.key)+res+temp.key;
+            res=temp.key+res+temp.key;
             if(temp.value==0){
                 minHeap.poll();
             }else{
