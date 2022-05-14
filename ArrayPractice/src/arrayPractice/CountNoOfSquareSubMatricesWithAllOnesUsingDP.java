@@ -4,8 +4,8 @@ public class CountNoOfSquareSubMatricesWithAllOnesUsingDP {
 
 	public static void main(String[] args) {
 		int arr[][] = { { 1, 0, 1 },
-                { 1, 1, 0 },
-                { 1, 1, 0 } };
+                		{ 1, 1, 0 },
+                		{ 1, 1, 0 } };
 		int col=arr[0].length;
 		int row=arr.length,count=0;
 		for(int i=0;i<row;i++) {
